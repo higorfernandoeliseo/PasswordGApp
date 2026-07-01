@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>FerlOps | Password Generator</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/lucide.css">
+  </head>
+  <body>
+   
+    <div id="app-container">
+        <img width="350px" src="assets/images/logo-top-banner.webp" id="banner-passwordg-logo" alt="banner-logo">
+      <header>
+          <input type="text" readonly name="passwordSaida" id="passwordSaida">
+          <button id="btnCopiar">
+            <i class="icon-copy"></i>
+            Copiar (Ctrl+C)
+          </button>
+      </header>
+
+      <div class="medidor-forca-senha">
+          <div id="barraForca"></div>
+      </div>
+
+      <div class="modo-seletor">
+          <button id="btnAleatorio" class="active">
+            <i class="icon-shuffle"></i>
+            Senha Aleatório
+          </button>
+          <button id="btnPassPhase">
+            <i class="icon-book-open-text"></i>
+            Senha-frase
+          </button>
+      </div>
+
+      <hr>
+
+      <section class="settings">
+
+          <span id="titleSection">Configurações</span>
+          <div class="mode-random">
+              <div class="form-group">
+                <label for="tamanhoSenha">Tamanho: </label>
+                <input type="number" name="txtSenhaTamanho" id="tamanhoSenha" min="12" max="100" value="20" class="config-options">
+              </div>
+              <div class="form-group">
+                <input type="checkbox" name="chkSelections" id="includeNumbers" class="config-options">
+                <label for="includeNumbers">Incluir Números (0-9)</label>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" name="chkSelections" id="includeSymbols" class="config-options">
+                <label for="includeSymbols">Incluir Simbolos (!@#$%)</label>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" name="chkSelections" id="includeUppercase" class="config-options">
+                <label for="includeUppercase">Incluir Letras Maiusculas (A-Z)</label>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" name="chkSelections" id="includeLowerCase" class="config-options">
+                <label for="includeLowerCase">Incluir Letras Minusculas (a-z)</label>
+              </div>
+          </div>
+
+          <div class="mode-phasepass">
+            <div class="form-group">
+              <label for="tamSenhaPhase">Tamanho: </label>
+              <input type="number" name="tamPhasePass" id="tamPhasePass" min="5" max="15" value="5" class="config-phase-options">
+            </div>
+            <div class="form-group">
+                <input type="checkbox" name="chkSelections" id="captalizeWords" title="Permite colocar cada palavra com a Primeira letra Maiusculas" class="config-phase-options">
+                <label for="captalizeWords">Capitalizar Palavras</label>
+            </div>
+             <div class="form-group">
+                <input type="checkbox" name="chkSelections" id="incNumbs" title="Permite um numero a cada palavra" class="config-phase-options">
+                <label for="captalizeWords">Incluir Numeros</label>
+            </div>
+
+          </div>
+          
+
+      </section>
+
+      <button id="btnGerar">
+        <i class="icon-refresh-cw"></i>
+          Gerar uma Nova Senha (Enter)
+      </button>
+
+      <div id="aboutapp"></div>
+    </div>
+
+    <script src="assets/js/neutralino.js"></script>
+    <!-- Your app's source files -->
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
