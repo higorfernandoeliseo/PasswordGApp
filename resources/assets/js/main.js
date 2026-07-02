@@ -82,9 +82,21 @@ function obterDados_ModoPhase() {
 
 function entropyAlgorithm(lengthChars, r) {
 
-    const entropy = lengthChars * Math.log2(r);
+    const entropy = parseInt(lengthChars * Math.log2(r));
 
-    return entropy;
+    //Força da senha: Forte (${entr} bits)
+
+    if(entropy <= 0) {
+        return `Força da senha: Invalida (${entropy} bits)`;
+    }else if(entropy < 36) {
+        return `Força da senha: Extremamente Fraca (${entropy} bits)`;
+    }else if(entropy < 60){
+        return `Força da senha: Fraca (${entropy} bits)`;
+    }else if(entropy < 120){
+        return `Força da senha: Forte (${entropy} bits)`;
+    }else{
+        return `Força da senha: Muito Forte (${entropy} bits)`;
+    }
 
 }
 
@@ -260,10 +272,6 @@ document.querySelectorAll('.config-options').forEach((item) => {
         config = obterDados_ModoRandom();
         let output = gerarHandle();
         SenhaOutput.value = output
-        const barra = document.querySelector('#barraForca');
-        gerarBarra(output)
-        const entr = entropyAlgorithm(output)
-        barra.title = `Força da senha: Forte (${entr} bits)`;
     })
 });
 
@@ -272,15 +280,16 @@ document.querySelectorAll('.config-phase-options').forEach((item) => {
         config = obterDados_ModoPhase();
         let output = gerarHandle();
         SenhaOutput.value = output
-        gerarBarra(output)
-
     })
 });
 
 btnGerar.addEventListener('click', () => {
     let output = gerarHandle();
+    const barra = document.querySelector('#barraForca');
     SenhaOutput.value = output
     gerarBarra(output)
+    const entr = entropyAlgorithm(output.length, intervalPasswd)
+    barra.setAttribute('title', entr);
 });
 
 btnCopiar.addEventListener('click', () => {

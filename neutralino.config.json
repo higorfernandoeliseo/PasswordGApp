@@ -81,6 +81,9 @@
     "extensionsPath": "/extensions/",
     "clientLibrary": "/resources/assets/js/neutralino.js",
     "binaryVersion": "6.8.0",
-    "clientVersion": "6.8.0"
+    "clientVersion": "6.8.0",
+    "nativeMethods": [
+      "window.setIcon"
+    ]
   }
 }
