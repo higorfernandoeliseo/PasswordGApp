@@ -23,6 +23,7 @@ const divPhaseControl = document.querySelector('.mode-phasepass');
 let config = obterDados_ModoRandom();
 let dicionario = [];
 let modo = "random";
+let intervalPasswd = 0
 
 function onWindowClose() {
     Neutralino.app.exit();
@@ -79,10 +80,23 @@ function obterDados_ModoPhase() {
     }
 }
 
+function entropyAlgorithm(lengthChars, r) {
+
+    const entropy = lengthChars * Math.log2(r);
+
+    return entropy;
+
+}
+
 function gerarSenhaAleatoria() {
 
     let letras = "";
     let password = "";
+
+    // simbolos = 26
+    // letras min = 26
+    // letras maius = 26
+    // numeros = 10
 
     const ListaCaracteres = [
         'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -93,15 +107,19 @@ function gerarSenhaAleatoria() {
 
     if(config.IncluirNums === true)
         letras += ListaCaracteres[2];
+        intervalPasswd += 10
     
     if(config.IncluirSymb === true)
         letras += ListaCaracteres[3];
+        intervalPasswd += 32
     
     if(config.IncluirUpper === true)
         letras += ListaCaracteres[0];
+        intervalPasswd += 26
     
     if(config.IncluirLower === true)
         letras += ListaCaracteres[1];
+        intervalPasswd += 26
 
     const aleatorio = new Uint32Array(config.Comprimento);
 
@@ -242,7 +260,10 @@ document.querySelectorAll('.config-options').forEach((item) => {
         config = obterDados_ModoRandom();
         let output = gerarHandle();
         SenhaOutput.value = output
+        const barra = document.querySelector('#barraForca');
         gerarBarra(output)
+        const entr = entropyAlgorithm(output)
+        barra.title = `Força da senha: Forte (${entr} bits)`;
     })
 });
 
@@ -252,6 +273,7 @@ document.querySelectorAll('.config-phase-options').forEach((item) => {
         let output = gerarHandle();
         SenhaOutput.value = output
         gerarBarra(output)
+
     })
 });
 
