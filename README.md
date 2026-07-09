@@ -9,7 +9,7 @@ Com uma interface intuitiva baseada em CSPRNG (Gerador de Números Aleatório Cr
 ![CSS](https://img.shields.io/badge/CSS-1293D8?logo=css&logoColor=fff)
 ![JavaScript Logo](https://shields.io/badge/JavaScript-F7DF1E?logo=JavaScript&logoColor=000&style=flat-square)
 
-## Captura de tela
+## Capturas de tela
 
 ![Screenshot PasswordG](https://ferlops.com.br/assets/images/passwordg-interface.png)
 ![Screenshot PasswordG](https://ferlops.com.br/assets/images/passphrase.png)
