@@ -322,32 +322,3 @@ nameappVer.innerHTML = `&copy; ${dateNow.getFullYear()} FerlOps Tecnologia.`;
 
 aboutappText.appendChild(nameappVer);
 
-
-// async function gerarDicionario() {
-
-//     try {
-//         const rawdata = await Neutralino.filesystem.readFile('./eff_large_wordlist.txt');
-
-//         //const linhas = rawdata.split('\n');
-
-//         const linhas = rawdata.split('\n')
-        
-//         // const mapa = linhas.filter((linha) => {
-//         //     if(linha.trim() !== ''){
-//         //         linha.split('\t')[1]
-//         //     }
-//         // }
-
-//         const palavras = linhas.map((linha) => {
-//             const colunas = linha.split('\t');
-//             return colunas[1] ? colunas[1].trim() : '';
-//         }).filter(palavra => palavra !== '');
-
-//         await Neutralino.filesystem.writeFile('dicionario.json', JSON.stringify(palavras, null, 2));
-
-//     } catch (error) {
-//         console.error('codigo de erro: ', error.code);
-//         console.error('mensagem de erro: ', error.message);
-//     }
-
-// }
