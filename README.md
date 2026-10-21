@@ -20,7 +20,7 @@ Com uma interface intuitiva baseada em CSPRNG (Gerador de Números Aleatório Cr
 - Gerar senha-frases com limite minimo de 5 palavras.
 - Funciona 100% offline.
 - Multiplataforma.
-- Utiliza a tecnologia (CSPRNG) para trabalhar com números aleatórios seguros.
+- Utiliza a tecnologia (CSPRNG) para trabalhar com números aleatórios seguros. (crypto.getRandomValues)
 
 ## Reportar erro:
 Se você quiser relatar um problema ou sugerir uma nova funcionalidade, sinta-se à vontade para criar uma *issue* neste repositório.
