@@ -1,26 +1,88 @@
-# FerlOps Password Generator
+# ferlOps PasswordG
 
-crie senhas fortes e senhas-frase complexas de forma 100% offline.
+Gerador de senhas e passphrases seguro, leve e 100% client-side construído com **Neutralino.js**.
 
-Com uma interface intuitiva baseada em CSPRNG (Gerador de Números Aleatório Criptograficamente Seguro), feita para quem valoriza a privacidade.
+## Funcionalidades
 
-## Tecnologia usada: 
-![HTML5 Logo](https://img.shields.io/badge/HTML-f06529?logo=html5&logoColor=white&labelColor=f06529)
-![CSS](https://img.shields.io/badge/CSS-1293D8?logo=css&logoColor=fff)
-![JavaScript Logo](https://shields.io/badge/JavaScript-F7DF1E?logo=JavaScript&logoColor=000&style=flat-square)
+- **Geração customizável:** ajuste de comprimento e inclusão/exclusão de maiúsculas, minúsculas, números, símbolos.
+- **Modo Passphrase:** geração de frases-senha baseadas em lista de palavras (`dicionario.json`).
+- **100% offline e client-side:**  nenhuma senha é salva, registrada em log ou enviada pela rede.
+- **Cópia rápida com limpeza automática:** copia para a área de transferência e limpa automaticamente após alguns segundos.
 
-## Capturas de tela
+## Como Usar
 
-![Screenshot PasswordG](https://ferlops.com.br/assets/images/passwordg-interface.png)
-![Screenshot PasswordG](https://ferlops.com.br/assets/images/passphrase.png)
+### Pré-requisitos
+- [Node.js](https://nodejs.org/)
+- **Neutralino.js CLI** (`@neutralinojs/neu`)
 
-##  Caracteristicas
+### Rodar em desenvolvimento
+1. Clone o repositório e acesse a pasta do aplicativo:
+```bash
+git clone https://github.com/higorfernandoeliseo/passwordGApp.git
+cd passwordGApp/app
 
-- Gerar senhas seguras com letras, números e caracteres especiais com limite minimo de 20 caracteres.
-- Gerar senha-frases com limite minimo de 5 palavras.
-- Funciona 100% offline.
-- Multiplataforma.
-- Utiliza a tecnologia (CSPRNG) para trabalhar com números aleatórios seguros. (crypto.getRandomValues)
+# para iniciar o aplicativo
 
-## Reportar erro:
-Se você quiser relatar um problema ou sugerir uma nova funcionalidade, sinta-se à vontade para criar uma *issue* neste repositório.
+neu run
+
+# para construir (Build) Dentro da pasta `app/`, execute:
+
+neu build
+
+```
+
+Os arquivos de distribuição serão gerados na pasta `app/dist/`.
+
+## Estrutura do Projeto
+
+```
+passwordGApp
+         ├── LICENSE                                                    # Licença do projeto
+         ├── README.md                                                  # Documentação
+         └── app
+               ├── neutralino.config.json
+               └── resources
+                       ├── index.html                                   # Estrutura principal da interface
+                       ├── assets/                       
+                       ├── css/
+                       │    ├── lucide.css
+                       │    ├── styles.css                              # Estilização e responsividade
+                       │    └── fonts/
+                       │           ├── Inter-Bold.woff2
+                       │           ├── Inter-Medium.woff2
+                       │           ├── Inter-Regular.woff2
+                       │           ├── lineicons-free-solid.ttf
+                       │           ├── lineicons-free-solid.woff
+                       │           ├── lineicons-free-solid.woff2
+                       │           ├── lucide.svg
+                       │           ├── lucide.ttf
+                       │           ├── lucide.woff
+                       │           └── lucide.woff2
+                       │     
+                       ├── db/
+                       │    └── dicionario.json                         # Lista de palavras para geração de passphrases
+                       ├── images/
+                       │     └── logo-top-banner.webp
+                       ├── js/ 
+                       │    ├── main.js                                 # Motor de geração criptográfica (Web Crypto API, Diceware, entropia em bits e a Classificação de força).
+                       │
+                       │    ├── neutralino.d.ts
+                       │    └── neutralino.js
+                       └── icons
+                             ├── appIcon.ico                             # Ícone principal do aplicativo
+                             ├── appIcon.png
+                             ├── logo.gif
+                             └── trayIcon.png
+
+
+
+```
+
+## Licença e Créditos
+
+Distribuído sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+
+Desenvolvido por Igor Eliseo - ferlOps Tecnologia.
+
+
+Consulte [SECURITY.md](SECURITY.md) para detalhes sobre a arquitetura criptográfica e politica de segurança.
