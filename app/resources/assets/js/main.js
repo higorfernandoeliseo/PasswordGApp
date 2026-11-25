@@ -80,9 +80,21 @@ function obterDados_ModoPhase() {
     }
 }
 
+//Função responsável por remover caracteres ambiguos da senha antes gerar a senha de fato.
+const removeAlbiguos = (chars) => {
+    return chars.replace(/[0O1lI]/gi, "");
+}
+
 function entropyAlgorithm(lengthChars, r) {
 
-    const entropy = parseInt(lengthChars * Math.log2(r));
+    let entropy;
+
+
+    if(modo === 'random') {
+        entropy = Math.floor(lengthChars * Math.log2(r));
+    }else{
+        entropy = Math.floor(lengthChars * Math.log2(r));
+    }
 
     //Força da senha: Forte (${entr} bits)
 
@@ -138,6 +150,8 @@ function gerarSenhaAleatoria() {
         intervalPasswd += 26
 
     const aleatorio = new Uint32Array(config.Comprimento);
+
+    //letras = removeAlbiguos(letras);
 
     window.crypto.getRandomValues(aleatorio);
 
@@ -294,10 +308,18 @@ btnGerar.addEventListener('click', () => {
     const barra = document.querySelector('#barraForca');
     SenhaOutput.value = output
     gerarBarra(output)
-    const entr = entropyAlgorithm(output.length, intervalPasswd)
-    barra.setAttribute('title', entr);
-	
-	console.log(intervalPasswd);
+
+    if(modo === 'random') {
+        const entr = entropyAlgorithm(output.length, intervalPasswd)
+        barra.setAttribute('title', entr);
+    }else{
+        const entr = entropyAlgorithm(config.ComprimentoPhase, dicionario.length)
+
+        barra.setAttribute('title', entr);
+    }
+
+    console.log(output.length);
+
 });
 
 btnCopiar.addEventListener('click', () => {

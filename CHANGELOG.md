@@ -1,8 +1,10 @@
 # Changelog
 
-
-
 [Unreleased]
+
+## - 2026-11-25
+### Fixed
+- Corrigido o cálculo correto do algoritmo de entropia de senha Aleatória e Senha-frase exibido na interface.
 
 ## - 2026-11-24
 ### Changed
