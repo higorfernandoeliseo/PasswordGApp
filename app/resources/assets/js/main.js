@@ -117,18 +117,22 @@ function gerarSenhaAleatoria() {
         '!@#$%^&*()_+-=[]{};:,.<>/?'
     ];
 
+	intervalPasswd = 0;
+
     if(config.IncluirNums === true)
         letras += ListaCaracteres[2];
         intervalPasswd += 10
-    
+	
     if(config.IncluirSymb === true)
         letras += ListaCaracteres[3];
         intervalPasswd += 32
+		
     
     if(config.IncluirUpper === true)
         letras += ListaCaracteres[0];
         intervalPasswd += 26
-    
+   
+	
     if(config.IncluirLower === true)
         letras += ListaCaracteres[1];
         intervalPasswd += 26
@@ -285,11 +289,15 @@ document.querySelectorAll('.config-phase-options').forEach((item) => {
 
 btnGerar.addEventListener('click', () => {
     let output = gerarHandle();
+	
+	
     const barra = document.querySelector('#barraForca');
     SenhaOutput.value = output
     gerarBarra(output)
     const entr = entropyAlgorithm(output.length, intervalPasswd)
     barra.setAttribute('title', entr);
+	
+	console.log(intervalPasswd);
 });
 
 btnCopiar.addEventListener('click', () => {

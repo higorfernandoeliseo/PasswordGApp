@@ -21,6 +21,14 @@ Gerador de senhas e passphrases seguro, leve e 100% client-side construído com 
 git clone https://github.com/higorfernandoeliseo/passwordGApp.git
 cd passwordGApp/app
 
+# baixar o Neutralino.js CLI antes de executar ou construir
+
+npm install -g @neutralinojs/neu
+
+# baixe os binários e o cliente
+
+neu update
+
 # para iniciar o aplicativo
 
 neu run
