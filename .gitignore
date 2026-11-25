@@ -1,1 +1,4 @@
 app/bin
+app/.tmp
+app/neutralinojs.log
+/.github/
