@@ -36,6 +36,25 @@ Neutralino.window.setIcon('resources/icons/appIcon.png');
 // Register event listeners
 Neutralino.events.on("windowClose", onWindowClose);
 
+function sortearIndice(max) {
+
+    if(max <=0 || max > 0x100000000) {
+        return 0;
+    }
+
+    const limite = Math.floor(0x100000000 / max) * max;
+    const buffer = new Uint32Array(1);
+    let num;
+
+    do {
+        crypto.getRandomValues(buffer);
+        num = buffer[0];
+    } while(num >= limite);
+
+    return num % max;
+
+}
+
 function UpperCaseWord(word) {
 
     let capitalize = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
@@ -128,9 +147,7 @@ function gerarSenhaAleatoria() {
     }
 
     for(const lista of ListaCaracteres) {
-        const num = crypto.getRandomValues(new Uint32Array(1))[0];
-        const indice = Math.floor((num / 4294967296) * lista.length);
-        senha.push(lista.charAt(indice));
+        senha.push(lista.charAt(sortearIndice(lista.length)));
     }
 
     if(config.IncluirNums === true)
@@ -157,12 +174,12 @@ function gerarSenhaAleatoria() {
     
     const faltam = config.Comprimento - senha.length;
 
-    const aleatorio = new Uint32Array(faltam);
-    window.crypto.getRandomValues(aleatorio);
+    //const aleatorio = new Uint32Array(faltam);
+    //window.crypto.getRandomValues(aleatorio);
 
     for(let i = 0; i < faltam; i++) {
-        const indice = aleatorio[i] % letras.length; 
-        senha.push(letras[indice]);
+        //const indice = aleatorio[i] % letras.length; 
+        senha.push(letras.charAt(sortearIndice(letras.length)));
     }
 
     return senha.join('');
