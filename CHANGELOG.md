@@ -3,9 +3,6 @@
 
 [Unreleased]
 
-## -
-### Added
-- Adicionar na função de gerar senha a criação do primeiro balde de forma aleatória que capte um caracter de cada indice [Maiusculas, Minusculas, Numeros, Simbolos] gerando um primeiro balde com 4 caracteres de cada indice e depois gerar de forma aleatória os caracteres restantes gerando o total pedido na interface pelo usuario.
 
 ## - 2026-11-26
 ### Changed
