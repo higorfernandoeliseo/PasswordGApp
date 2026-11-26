@@ -130,7 +130,7 @@ function gerarSenhaAleatoria() {
 
     for(const lista of ListaCaracteres) {
         const num = crypto.getRandomValues(new Uint32Array(1))[0];
-        senha.push(lista[num % lista.length]);
+        senha.push(lista.charAt(num % lista.length));
     }
 
     if(config.IncluirNums === true)
