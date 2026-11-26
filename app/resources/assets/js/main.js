@@ -82,22 +82,13 @@ function obterDados_ModoPhase() {
 }
 
 //Função responsável por remover caracteres ambiguos da senha antes gerar a senha de fato.
-const removeAlbiguos = (chars) => {
+const removeAmbiguos = (chars) => {
     return chars.replace(/[0O1lI]/gi, "");
 }
 
 function entropyAlgorithm(lengthChars, r) {
 
-    let entropy;
-
-
-    if(modo === 'random') {
-        entropy = Math.floor(lengthChars * Math.log2(r));
-    }else{
-        entropy = Math.floor(lengthChars * Math.log2(r));
-    }
-
-    //Força da senha: Forte (${entr} bits)
+    let entropy = Math.floor(lengthChars * Math.log2(r));
 
     if(entropy <= 0) {
         return `Força da senha: Invalida (${entropy} bits)`;
@@ -116,7 +107,8 @@ function entropyAlgorithm(lengthChars, r) {
 function gerarSenhaAleatoria() {
 
     let letras = "";
-    let password = "";
+
+    let senha = [];
 
     // simbolos = 26
     // letras min = 26
@@ -131,6 +123,15 @@ function gerarSenhaAleatoria() {
     ];
 
 	intervalPasswd = 0;
+
+    if(config.Comprimento < ListaCaracteres.length) {
+        console.log(`O tamanho minimo deve ser de ${ListaCaracteres.length} caracteres`);
+    }
+
+    for(const lista of ListaCaracteres) {
+        const num = crypto.getRandomValues(new Uint32Array(1))[0];
+        senha.push(lista[num % lista.length]);
+    }
 
     if(config.IncluirNums === true)
         letras += ListaCaracteres[2];
@@ -150,26 +151,47 @@ function gerarSenhaAleatoria() {
         letras += ListaCaracteres[1];
         intervalPasswd += 26
 
-    const aleatorio = new Uint32Array(config.Comprimento);
-
+        
     if (config.evitarAmbiguos) 
-       letras = removeAlbiguos(letras); 
+        letras = removeAmbiguos(letras); 
+    
+    const faltam = config.Comprimento - senha.length;
 
+    const aleatorio = new Uint32Array(faltam);
     window.crypto.getRandomValues(aleatorio);
 
-    for(let i = 0; i < config.Comprimento; i++) {
+    for(let i = 0; i < faltam; i++) {
         const indice = aleatorio[i] % letras.length; 
-        password += letras.charAt(indice);
+        senha.push(letras[indice]);
     }
 
-    return password;
+    return senha.join('');
 
 }
+
+function gerarPin() {
+
+    const tamanho = 6;
+    let pin = "";
+
+    const aleatorio = new Uint8Array(1);
+
+    while(pin.length < tamanho) {
+        const valor = crypto.getRandomValues(aleatorio)[0];
+        if(valor < 250) {
+            pin += (valor % 10).toString();
+        }
+    }
+
+}
+
+
+gerarPin();
+
 
 function gerarPhasepass() {
 
     let phasepass = [];
-    let password = "";
 
     const aleatorio = new Uint32Array(config.ComprimentoPhase);
 
@@ -320,8 +342,6 @@ btnGerar.addEventListener('click', () => {
         barra.setAttribute('title', entr);
     }
 
-    console.log(output.length);
-
 });
 
 btnCopiar.addEventListener('click', () => {
@@ -329,6 +349,9 @@ btnCopiar.addEventListener('click', () => {
 });
 
 btnRdnPassword.addEventListener('click', () => {
+
+    const barra = document.querySelector('#barraForca');
+    barra.style.width = '0px';
 
     modo = 'random';
     config = obterDados_ModoRandom();
@@ -342,9 +365,12 @@ btnRdnPassword.addEventListener('click', () => {
 
 btnPhasePassword.addEventListener('click', () => {
 
+    const barra = document.querySelector('#barraForca');
+
     modo = 'phasepass';
     config = obterDados_ModoPhase();
     SenhaOutput.value = '';
+    barra.style.width = '0px';
 
     btnRdnPassword.classList.remove('active');
     btnPhasePassword.classList.add('active');
