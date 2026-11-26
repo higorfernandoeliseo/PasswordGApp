@@ -1,12 +1,15 @@
 # Changelog
 
 
-## - 
-### Changed
-- Diminuição do tamanho do executável.
-
-
 [Unreleased]
+
+## - 2026-11-26
+### Fixed
+- Corrigido a configuração no neutralino.config.json que tornava o executável gerado inchado com 22 MB.
+
+## - 2026-11-25
+### Added
+- Adicionado a opção de evitar caracteres ambíguos no modo Senha Aleatória.
 
 ## - 2026-11-25
 ### Fixed

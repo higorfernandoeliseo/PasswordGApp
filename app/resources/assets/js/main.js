@@ -68,7 +68,8 @@ function obterDados_ModoRandom() {
         IncluirNums: document.querySelector('#includeNumbers').checked,
         IncluirSymb: document.querySelector('#includeSymbols').checked,
         IncluirUpper: document.querySelector('#includeUppercase').checked,
-        IncluirLower: document.querySelector('#includeLowerCase').checked
+        IncluirLower: document.querySelector('#includeLowerCase').checked,
+        evitarAmbiguos: document.querySelector('#evitarAmbiguos').checked
     }
 }
 
@@ -151,7 +152,8 @@ function gerarSenhaAleatoria() {
 
     const aleatorio = new Uint32Array(config.Comprimento);
 
-    //letras = removeAlbiguos(letras);
+    if (config.evitarAmbiguos) 
+       letras = removeAlbiguos(letras); 
 
     window.crypto.getRandomValues(aleatorio);
 
@@ -330,6 +332,7 @@ btnRdnPassword.addEventListener('click', () => {
 
     modo = 'random';
     config = obterDados_ModoRandom();
+    SenhaOutput.value = '';
 
     btnRdnPassword.classList.add('active');
     btnPhasePassword.classList.remove('active');
@@ -341,6 +344,7 @@ btnPhasePassword.addEventListener('click', () => {
 
     modo = 'phasepass';
     config = obterDados_ModoPhase();
+    SenhaOutput.value = '';
 
     btnRdnPassword.classList.remove('active');
     btnPhasePassword.classList.add('active');

@@ -1,3 +1,4 @@
 app/bin
 app/.tmp
 app/neutralinojs.log
+app/dist
