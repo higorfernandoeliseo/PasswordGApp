@@ -8,7 +8,6 @@
 
 */
 
-
 const dateNow = new Date();
 const aboutappText = document.querySelector('#aboutapp');
 const checkBoxesRd = document.getElementsByName('chkSelections');
@@ -130,7 +129,8 @@ function gerarSenhaAleatoria() {
 
     for(const lista of ListaCaracteres) {
         const num = crypto.getRandomValues(new Uint32Array(1))[0];
-        senha.push(lista.charAt(num % lista.length));
+        const indice = Math.floor((num / 4294967296) * lista.length);
+        senha.push(lista.charAt(indice));
     }
 
     if(config.IncluirNums === true)
