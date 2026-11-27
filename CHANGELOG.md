@@ -3,6 +3,9 @@
 
 [Unreleased]
 
+## - 2026-11-27
+### Added
+- Adicionado a opção de usar dicionario de palavras em português para gerar Senhas-frase seguras.
 
 ## - 2026-11-26
 ### Changed
@@ -11,7 +14,7 @@
 
 ## - 2026-11-26
 ### Fixed
-- Corrigido a configuração no neutralino.config.json que tornava o executável gerado inchado com 22 MB.
+- Corrigido a configuração no neutralino.config.json que tornava o executável gerado inchado com 22 MB para 1 MB.
 
 ## - 2026-11-25
 ### Added

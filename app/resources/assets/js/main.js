@@ -21,6 +21,7 @@ const divPhaseControl = document.querySelector('.mode-phasepass');
 
 let config = obterDados_ModoRandom();
 let dicionario = [];
+let idiomaAtualcache = 'en';
 let modo = "random";
 let intervalPasswd = 0
 
@@ -55,6 +56,18 @@ function sortearIndice(max) {
 
 }
 
+function embaralhar(arr) {
+
+    for(let i = arr.length - 1; i > 0; i--) {
+        const j = sortearIndice(i + 1);
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+
+    return arr;
+
+}
+
+
 function UpperCaseWord(word) {
 
     let capitalize = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
@@ -63,22 +76,28 @@ function UpperCaseWord(word) {
 
 }
 
-async function lerDicionario() {
+async function lerDicionario(idioma) {
+    
+    if (dicionario.length > 0 && idiomaAtualcache == idioma) {
+        return dicionario;
+    }
+    
+    dicionario = [];
 
-    const caminho = `./assets/db/dicionario.json`;
+    const caminho = idioma === 'pt-br' ? './assets/db/dicionario_ptbr.json' : './assets/db/dicionario.json';
 
     try{
         const lerDict = await fetch(caminho);
-        //const lerDict = await Neutralino.filesystem.readFile('assets/db/dicionario.json');
         if(!lerDict.ok) throw new Error("Arquivo não encontrado!");
         dicionario = await lerDict.json();
+        idiomaAtualcache = idioma;
+        return dicionario;
     }catch(erro){
         console.error(erro);
     }
 
 }
 
-lerDicionario()
 
 function obterDados_ModoRandom() {
     return {
@@ -94,6 +113,7 @@ function obterDados_ModoRandom() {
 function obterDados_ModoPhase() {
     return {
         ComprimentoPhase: parseInt(document.querySelector('#tamPhasePass').value),
+        getPhasePortugues: document.querySelector('#getPhasePortugues').checked,
         captalizeWords: document.querySelector('#captalizeWords').checked,
         incsNumbs: document.querySelector('#incNumbs').checked
     }
@@ -182,6 +202,8 @@ function gerarSenhaAleatoria() {
         senha.push(letras.charAt(sortearIndice(letras.length)));
     }
 
+    embaralhar(senha);
+
     return senha.join('');
 
 }
@@ -203,16 +225,21 @@ function gerarPin() {
 }
 
 
-gerarPin();
+//gerarPin();
 
-
-function gerarPhasepass() {
+ async function gerarPhasepass() {
 
     let phasepass = [];
 
     const aleatorio = new Uint32Array(config.ComprimentoPhase);
 
     window.crypto.getRandomValues(aleatorio);
+
+    const idioma = config.getPhasePortugues === true ? 'pt-br' : 'en';
+
+    dicionario = await lerDicionario(idioma);
+    idiomaAtualcache = idioma;
+
 
     if(config.captalizeWords === true && config.incsNumbs === true){
        for(let i = 0; i < config.ComprimentoPhase; i++) {
@@ -243,19 +270,19 @@ function gerarPhasepass() {
         }
     }
 
+    embaralhar(phasepass);
+
     return phasepass.join('-');
 
 }
 
-function gerarHandle() {
+async function gerarHandle() {
     let resultado = "";
-
-
 
     if(modo === 'random'){
         resultado = gerarSenhaAleatoria();
     }else{
-        resultado = gerarPhasepass();
+        resultado = await gerarPhasepass();
     }
 
     return resultado;
@@ -335,15 +362,15 @@ document.querySelectorAll('.config-options').forEach((item) => {
 });
 
 document.querySelectorAll('.config-phase-options').forEach((item) => {
-    item.addEventListener('change', () => {
+    item.addEventListener('change', async() => {
         config = obterDados_ModoPhase();
-        let output = gerarHandle();
+        let output = await gerarHandle();
         SenhaOutput.value = output
     })
 });
 
-btnGerar.addEventListener('click', () => {
-    let output = gerarHandle();
+btnGerar.addEventListener('click', async() => {
+    let output = await gerarHandle();
 	
 	
     const barra = document.querySelector('#barraForca');
