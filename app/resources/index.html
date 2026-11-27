@@ -25,7 +25,11 @@
       <div class="modo-seletor">
           <button id="btnAleatorio" class="active">
             <i class="icon-shuffle"></i>
-            Senha Aleatório
+            Aleatória
+          </button>
+          <button id="btnPin">
+            <i class="icon-hash"></i>
+            PIN
           </button>
           <button id="btnPassPhase">
             <i class="icon-book-open-text"></i>
@@ -38,6 +42,9 @@
       <section class="settings">
 
           <span id="titleSection">Configurações</span>
+
+          
+
           <div class="mode-random">
               <div class="form-group">
                 <label for="tamanhoSenha">Tamanho: </label>
@@ -64,6 +71,14 @@
                 <label for="evitarAmbiguos">Evitar caracteres ambíguos (l, 1, I, O, 0)</label>
               </div>
           </div>
+
+          <div class="mode-pin">
+            <div class="form-group">
+                <label for="tamPínPass">Tamanho: </label>
+                <input type="number" name="tamPínPass" id="tamPínPass" min="3" max="12" value="6" class="config-pin-options">
+              </div>
+          </div>
+
 
           <div class="mode-phasepass">
             <div class="form-group">

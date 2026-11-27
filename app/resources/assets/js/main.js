@@ -11,13 +11,19 @@
 const dateNow = new Date();
 const aboutappText = document.querySelector('#aboutapp');
 const checkBoxesRd = document.getElementsByName('chkSelections');
-const btnGerar = document.querySelector('#btnGerar');
+
 const SenhaOutput = document.querySelector('#passwordSaida');
 const btnCopiar = document.querySelector('#btnCopiar');
+
 const btnRdnPassword = document.querySelector('#btnAleatorio');
 const btnPhasePassword = document.querySelector('#btnPassPhase');
+const btnPinPassword = document.querySelector('#btnPin');
+
 const divRdnControl = document.querySelector('.mode-random');
+const divPinControl = document.querySelector('.mode-pin');
 const divPhaseControl = document.querySelector('.mode-phasepass');
+
+const btnGerar = document.querySelector('#btnGerar');
 
 let config = obterDados_ModoRandom();
 let dicionario = [];
@@ -107,6 +113,12 @@ function obterDados_ModoRandom() {
         IncluirUpper: document.querySelector('#includeUppercase').checked,
         IncluirLower: document.querySelector('#includeLowerCase').checked,
         evitarAmbiguos: document.querySelector('#evitarAmbiguos').checked
+    }
+}
+
+function obterDados_ModoPin() {
+    return {
+        ComprimentoPin: parseInt(document.querySelector('#tamPínPass').value)
     }
 }
 
@@ -208,9 +220,8 @@ function gerarSenhaAleatoria() {
 
 }
 
-function gerarPin() {
+function gerarPin(tamanho) {
 
-    const tamanho = 6;
     let pin = "";
 
     const aleatorio = new Uint8Array(1);
@@ -221,6 +232,8 @@ function gerarPin() {
             pin += (valor % 10).toString();
         }
     }
+
+    return pin;
 
 }
 
@@ -276,11 +289,14 @@ function gerarPin() {
 
 }
 
+
 async function gerarHandle() {
     let resultado = "";
 
     if(modo === 'random'){
         resultado = gerarSenhaAleatoria();
+    }else if(modo === 'pin'){
+        resultado = gerarPin(config.ComprimentoPin);
     }else{
         resultado = await gerarPhasepass();
     }
@@ -361,6 +377,14 @@ document.querySelectorAll('.config-options').forEach((item) => {
     })
 });
 
+document.querySelectorAll('.config-pin-options').forEach((item) => {
+    item.addEventListener('change', async() => {
+        config = obterDados_ModoPin();
+        let output = await gerarHandle();
+        SenhaOutput.value = output
+    })
+});
+
 document.querySelectorAll('.config-phase-options').forEach((item) => {
     item.addEventListener('change', async() => {
         config = obterDados_ModoPhase();
@@ -380,6 +404,8 @@ btnGerar.addEventListener('click', async() => {
     if(modo === 'random') {
         const entr = entropyAlgorithm(output.length, intervalPasswd)
         barra.setAttribute('title', entr);
+    }else if(modo === 'pin'){
+        barra.style.width = '0px';
     }else{
         const entr = entropyAlgorithm(config.ComprimentoPhase, dicionario.length)
 
@@ -402,8 +428,27 @@ btnRdnPassword.addEventListener('click', () => {
     SenhaOutput.value = '';
 
     btnRdnPassword.classList.add('active');
+    btnPinPassword.classList.remove('active');
     btnPhasePassword.classList.remove('active');
     divRdnControl.style.display = 'block';
+    divPhaseControl.style.display = 'none';
+    divPinControl.style.display = 'none';
+});
+
+btnPinPassword.addEventListener('click', () => {
+
+    const barra = document.querySelector('#barraForca');
+    barra.style.width = '0px';
+
+    modo = 'pin';
+    config = obterDados_ModoPin();
+    SenhaOutput.value = '';
+
+    btnRdnPassword.classList.remove('active');
+    btnPinPassword.classList.add('active');
+    btnPhasePassword.classList.remove('active');
+    divRdnControl.style.display = 'none';
+    divPinControl.style.display = 'block';
     divPhaseControl.style.display = 'none';
 });
 
@@ -417,8 +462,10 @@ btnPhasePassword.addEventListener('click', () => {
     barra.style.width = '0px';
 
     btnRdnPassword.classList.remove('active');
+    btnPinPassword.classList.remove('active');
     btnPhasePassword.classList.add('active');
     divRdnControl.style.display = 'none';
+    divPinControl.style.display = 'none';
     divPhaseControl.style.display = 'block';
 });
 

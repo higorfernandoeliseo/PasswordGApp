@@ -120,6 +120,11 @@ div#app-container div.modo-seletor button#btnPassPhase {
     border-left: none;
 }
 
+div#app-container div.modo-seletor button#btnPin {
+    border: 1px solid #adaeb2;
+    border-left: none;
+}
+
 div#app-container div.modo-seletor button.active {
     background-color: #12beb8;
     border-color: #0b928e !important;
@@ -146,6 +151,14 @@ div#app-container section.settings div.mode-random {
     background-color: #eeeff5;
 }
 
+div#app-container section.settings div.mode-pin {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: #eeeff5;
+    display: none;
+}
+
 div#app-container section.settings div.mode-phasepass {
     padding: 10px;
     border: none;
@@ -154,12 +167,15 @@ div#app-container section.settings div.mode-phasepass {
     display: none;
 }
 
+
 div#app-container section.settings div.mode-random div.form-group,
+div#app-container section.settings div.mode-pin div.form-group,
 div#app-container section.settings div.mode-phasepass div.form-group {
     margin: 8px 4px;
 }
 
 div#app-container section.settings div.mode-random label,
+div#app-container section.settings div.mode-pin label,
 div#app-container section.settings div.mode-phasepass label {
     padding: 0px 6px;
     font-size: 14px;
@@ -167,6 +183,7 @@ div#app-container section.settings div.mode-phasepass label {
 
 
 div#app-container section.settings div.mode-random div.form-group input[type="number"],
+div#app-container section.settings div.mode-pin div.form-group input[type="number"],
 div#app-container section.settings div.mode-phasepass div.form-group input[type="number"] {
     border: 1px solid #adaeb2;
     padding: 6px 10px;
@@ -176,6 +193,10 @@ div#app-container section.settings div.mode-phasepass div.form-group input[type=
 }
 
 div#app-container section.settings div.mode-random div.form-group input[type="checkbox"] {
+    accent-color: #143159;
+}
+
+div#app-container section.settings div.mode-pin div.form-group input[type="checkbox"] {
     accent-color: #143159;
 }
 

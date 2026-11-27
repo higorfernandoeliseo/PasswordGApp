@@ -3,6 +3,10 @@
 
 [Unreleased]
 
+## - 2026-11-27?
+### Added
+- Adicionado um botão da opção de gerar senhas PIN na interface e finalização da classe gerarPin() no codigo principal.
+
 ## - 2026-11-27
 ### Added
 - Adicionado a opção de usar dicionario de palavras em português para gerar Senhas-frase seguras.
