@@ -162,6 +162,8 @@ function gerarSenhaAleatoria() {
 
     let senha = [];
 
+    config.Comprimento === '' ? 20 : config.Comprimento
+
     // simbolos = 32
     // letras min = 26
     // letras maius = 26
@@ -223,7 +225,7 @@ function gerarPin(tamanho) {
 
 }
 
-
+SenhaOutput.value = atualizarSenha();
 //gerarPin();
 
  async function gerarPhasepass() {
@@ -339,8 +341,8 @@ async function copiarAreaClipboard() {
 }
 
 
-document.querySelectorAll('.config-options, .config-pin-options, .config-phase-options').forEach((item) => {
-    item.addEventListener('change', atualizarSenha);
+document.querySelectorAll('.range-length-psswd, .config-options, .config-pin-options, .config-phase-options').forEach((item) => {
+    item.addEventListener('input', atualizarSenha);
 });
 
 btnCopiar.addEventListener('click', () => {
@@ -354,11 +356,15 @@ async function atualizarSenha() {
     else if (modo === "pin") config = obterDados_ModoPin();
     else config = obterDados_ModoPhase();
 
+    
+
     let output = await gerarHandle();
     const divStatusForca = document.querySelector('.statusForca');
     divStatusForca.innerHTML = '';
     let textoForca = document.createElement('p');
     SenhaOutput.value = output;
+
+    document.querySelector('#length-value').textContent = output.length;
 
     const barra = document.querySelector('#barraForca');
     
@@ -408,7 +414,7 @@ btnRdnPassword.addEventListener('click', () => alternarModo('random', btnRdnPass
 btnPinPassword.addEventListener('click', () => alternarModo('pin', btnPinPassword, divPinControl));
 btnPhasePassword.addEventListener('click', () => alternarModo('phasepass', btnPhasePassword, divPhaseControl));
 
-nameappVer.innerHTML = `Versão ${versionNum.MAJOR}.${versionNum.MINOR}.${versionNum.PATCH} - &copy; ${dateNow.getFullYear()} ferlOps Tecnologia.`;
+nameappVer.innerHTML = `Versão ${versionNum.MAJOR}.${versionNum.MINOR}.${versionNum.PATCH}-beta - &copy; ${dateNow.getFullYear()} ferlOps Tecnologia.`;
 
 aboutappText.appendChild(nameappVer);
 

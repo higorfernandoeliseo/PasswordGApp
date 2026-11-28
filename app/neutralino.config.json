@@ -41,9 +41,9 @@
     "window": {
       "title": "ferlOps PasswordG Generator",
       "width": 420,
-      "height": 620,
+      "height": 656,
       "minWidth": 440,
-      "minHeight": 620,
+      "minHeight": 656,
       "center": true,
       "fullScreen": false,
       "alwaysOnTop": false,

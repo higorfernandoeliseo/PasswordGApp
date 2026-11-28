@@ -10,6 +10,7 @@
    
     <div id="app-container">
         <img width="350px" src="assets/images/logo-top-banner.webp" id="banner-passwordg-logo" alt="banner-logo">
+        <hr>
       <header>
           <input type="text" readonly name="passwordSaida" id="passwordSaida">
           <button id="btnCopiar">
@@ -18,12 +19,9 @@
           </button>
       </header>
 
-      <div class="statusForca"></div>
-
-      <div class="medidor-forca-senha">
-          <div id="barraForca"></div>
-      </div>
-
+      
+      
+     
       <div class="modo-seletor">
           <button id="btnAleatorio" class="active">
             <i class="icon-shuffle"></i>
@@ -39,38 +37,41 @@
           </button>
       </div>
 
-      <hr>
 
       <section class="settings">
 
-          <span id="titleSection">Configurações</span>
+          <span id="titleSection">CONFIGURAÇÕES</span>
 
           
 
           <div class="mode-random">
-              <div class="form-group">
-                <label for="tamanhoSenha">Tamanho: </label>
-                <input type="number" name="txtSenhaTamanho" id="tamanhoSenha" min="12" max="100" value="20" class="config-options">
+              <div class="length-control">
+                <div class="label-control">
+                  <label for="">Tamanho</label>
+                  <span id="length-value" class="length-badge">32</span>
+                </div>
+                <input type="range" name="txtSenhaTamanho" id="tamanhoSenha" min="12" max="100" value="32" class="range-length-psswd">
               </div>
+
               <div class="form-group">
                 <input type="checkbox" name="chkSelections" id="includeNumbers" class="config-options" checked>
-                <label for="includeNumbers">Incluir Números (0-9)</label>
+                <label for="includeNumbers">Incluir Números <span>0-9</span></label>
               </div>
               <div class="form-group">
                 <input type="checkbox" name="chkSelections" id="includeSymbols" class="config-options" checked>
-                <label for="includeSymbols">Incluir Simbolos (!@#$%)</label>
+                <label for="includeSymbols">Incluir Símbolos <span>!@#$%</span></label>
               </div>
               <div class="form-group">
                 <input type="checkbox" name="chkSelections" id="includeUppercase" class="config-options" checked>
-                <label for="includeUppercase">Incluir Letras Maiusculas (A-Z)</label>
+                <label for="includeUppercase">Incluir Letras Maíusculas <span>A-Z</span></label>
               </div>
               <div class="form-group">
                 <input type="checkbox" name="chkSelections" id="includeLowerCase" class="config-options" checked>
-                <label for="includeLowerCase">Incluir Letras Minusculas (a-z)</label>
+                <label for="includeLowerCase">Incluir Letras Mínusculas <span>a-z</span></label>
               </div>
               <div class="form-group">
-                <input type="checkbox" name="chkSelections" id="evitarAmbiguos" class="config-options" checked>
-                <label for="evitarAmbiguos">Evitar caracteres ambíguos (l, 1, I, O, 0)</label>
+                <input type="checkbox" name="chkSelections" id="evitarAmbiguos" class="config-options">
+                <label for="evitarAmbiguos">Evitar caracteres ambíguos <span>l, 1, I, O, 0</span></label>
               </div>
           </div>
 
@@ -104,6 +105,12 @@
           
 
       </section>
+
+      <div class="medidor-forca-senha">
+        <div id="barraForca"></div>
+      </div>
+      
+      <div class="statusForca"></div>
 
       <button id="btnGerar">
         <i class="icon-rotate-cw"></i>
