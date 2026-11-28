@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>FerlOps | Password Generator</title>
+    <title>ferlOps PasswordG Generator</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/lucide.css">
   </head>
@@ -10,6 +10,7 @@
    
     <div id="app-container">
         <img width="350px" src="assets/images/logo-top-banner.webp" id="banner-passwordg-logo" alt="banner-logo">
+        <hr>
       <header>
           <input type="text" readonly name="passwordSaida" id="passwordSaida">
           <button id="btnCopiar">
@@ -18,14 +19,17 @@
           </button>
       </header>
 
-      <div class="medidor-forca-senha">
-          <div id="barraForca"></div>
-      </div>
-
+      
+      
+     
       <div class="modo-seletor">
           <button id="btnAleatorio" class="active">
             <i class="icon-shuffle"></i>
-            Senha Aleatório
+            Aleatória
+          </button>
+          <button id="btnPin">
+            <i class="icon-hash"></i>
+            PIN
           </button>
           <button id="btnPassPhase">
             <i class="icon-book-open-text"></i>
@@ -33,38 +37,70 @@
           </button>
       </div>
 
-      <hr>
 
       <section class="settings">
 
-          <span id="titleSection">Configurações</span>
+          <span id="titleSection">CONFIGURAÇÕES</span>
+
+          
+
           <div class="mode-random">
-              <div class="form-group">
-                <label for="tamanhoSenha">Tamanho: </label>
-                <input type="number" name="txtSenhaTamanho" id="tamanhoSenha" min="12" max="100" value="20" class="config-options">
+              <div class="length-control">
+                <div class="label-control">
+                  <label for="tamanhoSenha">Tamanho</label>
+                  <span id="length-value" class="length-badge">32</span>
+                </div>
+                <input type="range" name="txtSenhaTamanho" id="tamanhoSenha" min="12" max="100" value="32" class="range-length-psswd" oninput="document.getElementById('length-value').textContent = this.value">
               </div>
+
               <div class="form-group">
                 <input type="checkbox" name="chkSelections" id="includeNumbers" class="config-options" checked>
-                <label for="includeNumbers">Incluir Números (0-9)</label>
+                <label for="includeNumbers">Incluir Números <span>0-9</span></label>
               </div>
               <div class="form-group">
                 <input type="checkbox" name="chkSelections" id="includeSymbols" class="config-options" checked>
-                <label for="includeSymbols">Incluir Simbolos (!@#$%)</label>
+                <label for="includeSymbols">Incluir Símbolos <span>!@#$%</span></label>
               </div>
               <div class="form-group">
                 <input type="checkbox" name="chkSelections" id="includeUppercase" class="config-options" checked>
-                <label for="includeUppercase">Incluir Letras Maiusculas (A-Z)</label>
+                <label for="includeUppercase">Incluir Letras Maíusculas <span>A-Z</span></label>
               </div>
               <div class="form-group">
                 <input type="checkbox" name="chkSelections" id="includeLowerCase" class="config-options" checked>
-                <label for="includeLowerCase">Incluir Letras Minusculas (a-z)</label>
+                <label for="includeLowerCase">Incluir Letras Mínusculas <span>a-z</span></label>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" name="chkSelections" id="evitarAmbiguos" class="config-options">
+                <label for="evitarAmbiguos">Evitar caracteres ambíguos <span>l, 1, I, O, 0</span></label>
               </div>
           </div>
 
+          <div class="mode-pin">
+
+              <div class="length-control">
+                <div class="label-control">
+                  <label for="tamPinPass">Tamanho</label>
+                  <span id="length-value-pin" class="length-badge">6</span>
+                </div>
+                <input type="range" name="tamPinPass" id="tamPinPass" min="3" max="12" value="6" class="range-length-psswd" oninput="document.getElementById('length-value-pin').textContent = this.value">
+              </div>
+          </div>
+
+
           <div class="mode-phasepass">
+            
+             <div class="length-control">
+                <div class="label-control">
+                  <label for="tamPhasePass">Tamanho</label>
+                  <span id="length-value-phrase" class="length-badge">6</span>
+                </div>
+                <input type="range" name="tamPhasePass" id="tamPhasePass" min="3" max="12" value="6" class="range-length-psswd" oninput="document.getElementById('length-value-phrase').textContent = this.value">
+              </div>
+            
+           
             <div class="form-group">
-              <label for="tamSenhaPhase">Tamanho: </label>
-              <input type="number" name="tamPhasePass" id="tamPhasePass" min="5" max="15" value="5" class="config-phase-options">
+                <input type="checkbox" name="chkSelections" id="getPhasePortugues" title="Permite gerar senhas-frase em Português" class="config-phase-options">
+                <label for="getPhasePortugues">Incluir Palavras em Português</label>
             </div>
             <div class="form-group">
                 <input type="checkbox" name="chkSelections" id="captalizeWords" title="Permite colocar cada palavra com a Primeira letra Maiusculas" class="config-phase-options" checked>
@@ -72,7 +108,7 @@
             </div>
              <div class="form-group">
                 <input type="checkbox" name="chkSelections" id="incNumbs" title="Permite um numero a cada palavra" class="config-phase-options" checked>
-                <label for="captalizeWords">Incluir Numeros</label>
+                <label for="captalizeWords">Incluir Números</label>
             </div>
 
           </div>
@@ -80,9 +116,17 @@
 
       </section>
 
+      <div class="medidor-container">
+        <div class="medidor-forca-senha">
+          <div id="barraForca"></div>
+        </div>
+        
+        <div class="statusForca"></div>
+      </div>
+
       <button id="btnGerar">
-        <i class="icon-refresh-cw"></i>
-          Gerar uma Nova Senha (Enter)
+        <i class="icon-rotate-cw"></i>
+          Gerar Senha 
       </button>
 
       <div id="aboutapp"></div>

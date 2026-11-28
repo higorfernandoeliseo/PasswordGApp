@@ -8,22 +8,30 @@
 
 */
 
-
 const dateNow = new Date();
 const aboutappText = document.querySelector('#aboutapp');
 const checkBoxesRd = document.getElementsByName('chkSelections');
-const btnGerar = document.querySelector('#btnGerar');
+
 const SenhaOutput = document.querySelector('#passwordSaida');
 const btnCopiar = document.querySelector('#btnCopiar');
+
 const btnRdnPassword = document.querySelector('#btnAleatorio');
 const btnPhasePassword = document.querySelector('#btnPassPhase');
+const btnPinPassword = document.querySelector('#btnPin');
+
 const divRdnControl = document.querySelector('.mode-random');
+const divPinControl = document.querySelector('.mode-pin');
 const divPhaseControl = document.querySelector('.mode-phasepass');
+
+const btnGerar = document.querySelector('#btnGerar');
 
 let config = obterDados_ModoRandom();
 let dicionario = [];
+let idiomaAtualcache = 'en';
 let modo = "random";
-let intervalPasswd = 0
+let intervalPasswd = 0;
+
+const versionNum = { MAJOR: 1, MINOR: 1, PATCH: 6};
 
 function onWindowClose() {
     Neutralino.app.exit();
@@ -37,6 +45,37 @@ Neutralino.window.setIcon('resources/icons/appIcon.png');
 // Register event listeners
 Neutralino.events.on("windowClose", onWindowClose);
 
+function sortearIndice(max) {
+
+    if(max <=0 || max > 0x100000000) {
+        return 0;
+    }
+
+    const limite = Math.floor(0x100000000 / max) * max;
+    const buffer = new Uint32Array(1);
+    let num;
+
+    do {
+        crypto.getRandomValues(buffer);
+        num = buffer[0];
+    } while(num >= limite);
+
+    return num % max;
+
+}
+
+function embaralhar(arr) {
+
+    for(let i = arr.length - 1; i > 0; i--) {
+        const j = sortearIndice(i + 1);
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+
+    return arr;
+
+}
+
+
 function UpperCaseWord(word) {
 
     let capitalize = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
@@ -45,22 +84,28 @@ function UpperCaseWord(word) {
 
 }
 
-async function lerDicionario() {
+async function lerDicionario(idioma) {
+    
+    if (dicionario.length > 0 && idiomaAtualcache == idioma) {
+        return dicionario;
+    }
+    
+    dicionario = [];
 
-    const caminho = `./assets/db/dicionario.json`;
+    const caminho = idioma === 'pt-br' ? './assets/db/dicionario_ptbr.json' : './assets/db/dicionario.json';
 
     try{
         const lerDict = await fetch(caminho);
-        //const lerDict = await Neutralino.filesystem.readFile('assets/db/dicionario.json');
         if(!lerDict.ok) throw new Error("Arquivo não encontrado!");
         dicionario = await lerDict.json();
+        idiomaAtualcache = idioma;
+        return dicionario;
     }catch(erro){
         console.error(erro);
     }
 
 }
 
-lerDicionario()
 
 function obterDados_ModoRandom() {
     return {
@@ -68,35 +113,34 @@ function obterDados_ModoRandom() {
         IncluirNums: document.querySelector('#includeNumbers').checked,
         IncluirSymb: document.querySelector('#includeSymbols').checked,
         IncluirUpper: document.querySelector('#includeUppercase').checked,
-        IncluirLower: document.querySelector('#includeLowerCase').checked
+        IncluirLower: document.querySelector('#includeLowerCase').checked,
+        evitarAmbiguos: document.querySelector('#evitarAmbiguos').checked
+    }
+}
+
+function obterDados_ModoPin() {
+    return {
+        ComprimentoPin: parseInt(document.querySelector('#tamPinPass').value)
     }
 }
 
 function obterDados_ModoPhase() {
     return {
         ComprimentoPhase: parseInt(document.querySelector('#tamPhasePass').value),
+        getPhasePortugues: document.querySelector('#getPhasePortugues').checked,
         captalizeWords: document.querySelector('#captalizeWords').checked,
         incsNumbs: document.querySelector('#incNumbs').checked
     }
 }
 
 //Função responsável por remover caracteres ambiguos da senha antes gerar a senha de fato.
-const removeAlbiguos = (chars) => {
+const removeAmbiguos = (chars) => {
     return chars.replace(/[0O1lI]/gi, "");
 }
 
 function entropyAlgorithm(lengthChars, r) {
 
-    let entropy;
-
-
-    if(modo === 'random') {
-        entropy = Math.floor(lengthChars * Math.log2(r));
-    }else{
-        entropy = Math.floor(lengthChars * Math.log2(r));
-    }
-
-    //Força da senha: Forte (${entr} bits)
+    let entropy = Math.floor(lengthChars * Math.log2(r));
 
     if(entropy <= 0) {
         return `Força da senha: Invalida (${entropy} bits)`;
@@ -115,106 +159,117 @@ function entropyAlgorithm(lengthChars, r) {
 function gerarSenhaAleatoria() {
 
     let letras = "";
-    let password = "";
 
-    // simbolos = 26
+    let senha = [];
+
+    config.Comprimento === '' ? 20 : config.Comprimento
+
+    // simbolos = 32
     // letras min = 26
     // letras maius = 26
     // numeros = 10
 
-    const ListaCaracteres = [
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-        'abcdefghijklmnopqrstuvwxyz',
-        '0123456789',
-        '!@#$%^&*()_+-=[]{};:,.<>/?'
+
+    const conjuntos = [
+        { ativo: config.IncluirUpper, chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
+        { ativo: config.IncluirLower, chars: 'abcdefghijklmnopqrstuvwxyz' },
+        { ativo: config.IncluirNums, chars: '0123456789' },
+        { ativo: config.IncluirSymb, chars: '!@#$%^&*()_+-=[]{};:,.<>/?~`|\\"\'' }
     ];
 
 	intervalPasswd = 0;
 
-    if(config.IncluirNums === true)
-        letras += ListaCaracteres[2];
-        intervalPasswd += 10
-	
-    if(config.IncluirSymb === true)
-        letras += ListaCaracteres[3];
-        intervalPasswd += 32
-		
-    
-    if(config.IncluirUpper === true)
-        letras += ListaCaracteres[0];
-        intervalPasswd += 26
-   
-	
-    if(config.IncluirLower === true)
-        letras += ListaCaracteres[1];
-        intervalPasswd += 26
+    for(const item of conjuntos) {
+        if(item.ativo) {
+            let charsFiltrados = config.evitarAmbiguos ? removeAmbiguos(item.chars) : item.chars;
 
-    const aleatorio = new Uint32Array(config.Comprimento);
-
-    //letras = removeAlbiguos(letras);
-
-    window.crypto.getRandomValues(aleatorio);
-
-    for(let i = 0; i < config.Comprimento; i++) {
-        const indice = aleatorio[i] % letras.length; 
-        password += letras.charAt(indice);
+            if(charsFiltrados.length > 0) {
+                letras += charsFiltrados;
+                intervalPasswd += charsFiltrados.length;
+                senha.push(charsFiltrados.charAt(sortearIndice(charsFiltrados.length)));
+            }
+        }
     }
 
-    return password;
+    if(letras.length === 0) {
+        console.log(`O tamanho minimo deve ser de ${ListaCaracteres.length} caracteres`);
+        return "";
+    }
+
+   
+    
+    const faltam = config.Comprimento - senha.length;
+
+    for(let i = 0; i < faltam; i++) {
+        senha.push(letras.charAt(sortearIndice(letras.length)));
+    }
+
+    return embaralhar(senha).join('');
 
 }
 
-function gerarPhasepass() {
+function gerarPin(tamanho) {
+
+    let pin = "";
+
+    const aleatorio = new Uint8Array(1);
+
+    while(pin.length < tamanho) {
+        const valor = crypto.getRandomValues(aleatorio)[0];
+        if(valor < 250) {
+            pin += (valor % 10).toString();
+        }
+    }
+
+    return pin;
+
+}
+
+SenhaOutput.value = atualizarSenha();
+//gerarPin();
+
+ async function gerarPhasepass() {
 
     let phasepass = [];
-    let password = "";
 
-    const aleatorio = new Uint32Array(config.ComprimentoPhase);
+    config = obterDados_ModoPhase();
 
-    window.crypto.getRandomValues(aleatorio);
 
-    if(config.captalizeWords === true && config.incsNumbs === true){
-       for(let i = 0; i < config.ComprimentoPhase; i++) {
-            const indice = aleatorio[i] % dicionario.length;
+    const idioma = config.getPhasePortugues === true ? 'pt-br' : 'en';
 
-            const j = aleatorio[i] % 10;
+    dicionario = await lerDicionario(idioma);
+    idiomaAtualcache = idioma;
 
-            phasepass.push(UpperCaseWord(dicionario[indice]+j));
-        } 
-    }else if(config.captalizeWords === true){
-        for(let i = 0; i < config.ComprimentoPhase; i++) {
-            const indice = aleatorio[i] % dicionario.length;
-            phasepass.push(UpperCaseWord(dicionario[indice]));
+    for(let i = 0; i < config.ComprimentoPhase; i++) {
+        let palavra = dicionario[sortearIndice(dicionario.length)];
+
+        if (config.captalizeWords) {
+            palavra = UpperCaseWord(palavra);
         }
-    }else if(config.incsNumbs === true){
-        for(let i = 0; i < config.ComprimentoPhase; i++) {
 
-            const indice = aleatorio[i] % dicionario.length;
-
-            const j = aleatorio[i] % 10;
-
-            phasepass.push(dicionario[indice]+j);
+        if (config.incsNumbs) {
+            palavra += sortearIndice(10);
         }
-    }else{
-        for(let i = 0; i < config.ComprimentoPhase; i++) {
-            const indice = aleatorio[i] % dicionario.length;
-            phasepass.push(dicionario[indice]);
-        }
+
+        phasepass.push(palavra);
+
     }
 
-    return phasepass.join('-');
+
+    return embaralhar(phasepass).join('-');
 
 }
 
-function gerarHandle() {
+
+async function gerarHandle() {
     let resultado = "";
-
-
 
     if(modo === 'random'){
         resultado = gerarSenhaAleatoria();
+    }else if(modo === 'pin'){
+        resultado = gerarPin(config.ComprimentoPin);
     }else{
-        resultado = gerarPhasepass();
+        resultado = await gerarPhasepass();
     }
 
     return resultado;
@@ -285,70 +340,82 @@ async function copiarAreaClipboard() {
 
 }
 
-document.querySelectorAll('.config-options').forEach((item) => {
-    item.addEventListener('change', () => {
-        config = obterDados_ModoRandom();
-        let output = gerarHandle();
-        SenhaOutput.value = output
-    })
-});
 
-document.querySelectorAll('.config-phase-options').forEach((item) => {
-    item.addEventListener('change', () => {
-        config = obterDados_ModoPhase();
-        let output = gerarHandle();
-        SenhaOutput.value = output
-    })
-});
-
-btnGerar.addEventListener('click', () => {
-    let output = gerarHandle();
-	
-	
-    const barra = document.querySelector('#barraForca');
-    SenhaOutput.value = output
-    gerarBarra(output)
-
-    if(modo === 'random') {
-        const entr = entropyAlgorithm(output.length, intervalPasswd)
-        barra.setAttribute('title', entr);
-    }else{
-        const entr = entropyAlgorithm(config.ComprimentoPhase, dicionario.length)
-
-        barra.setAttribute('title', entr);
-    }
-
-    console.log(output.length);
-
+document.querySelectorAll('.range-length-psswd, .config-options, .config-pin-options, .config-phase-options').forEach((item) => {
+    item.addEventListener('input', atualizarSenha);
 });
 
 btnCopiar.addEventListener('click', () => {
     copiarAreaClipboard();
 });
 
-btnRdnPassword.addEventListener('click', () => {
 
-    modo = 'random';
-    config = obterDados_ModoRandom();
+async function atualizarSenha() {
 
-    btnRdnPassword.classList.add('active');
-    btnPhasePassword.classList.remove('active');
-    divRdnControl.style.display = 'block';
-    divPhaseControl.style.display = 'none';
+    if (modo === "random") config = obterDados_ModoRandom();
+    else if (modo === "pin") config = obterDados_ModoPin();
+    else config = obterDados_ModoPhase();
+
+    
+
+    let output = await gerarHandle();
+    const divStatusForca = document.querySelector('.statusForca');
+    divStatusForca.innerHTML = '';
+    let textoForca = document.createElement('p');
+    SenhaOutput.value = output;
+
+    const barra = document.querySelector('#barraForca');
+    
+    if (modo === "pin") {
+        barra.style.width = "0px";
+        barra.setAttribute('title', entropyAlgorithm(output.length, 10));
+        return;
+    }
+    
+    gerarBarra(output);
+    
+
+    const r = (modo === "random") ? intervalPasswd : dicionario.length;
+    const tamanho = (modo === "random") ? config.Comprimento : config.ComprimentoPhase;
+
+    barra.setAttribute('title', entropyAlgorithm(tamanho, r));
+
+    textoForca.textContent = entropyAlgorithm(tamanho, r);
+    divStatusForca.appendChild(textoForca);
+
+}
+
+function alternarModo(modoAtivo, btnAtivo, abaAtiva) {
+
+    modo = modoAtivo;
+
+    const barra = document.querySelector('#barraForca');
+    barra.style.width = "0px";
+
+    [btnRdnPassword, btnPinPassword, btnPhasePassword].forEach(btn => {
+        btn.classList.remove('active');
+        btn.disabled = false;
+    });
+    [divRdnControl, divPinControl, divPhaseControl].forEach(div => div.style.display = 'none');
+
+    btnAtivo.classList.add('active');
+    btnAtivo.disabled = true;
+    abaAtiva.style.display = 'block';
+
+
+    atualizarSenha();
+
+}
+
+btnGerar.addEventListener('click', async() => {
+    atualizarSenha();
 });
 
-btnPhasePassword.addEventListener('click', () => {
+btnRdnPassword.addEventListener('click', () => alternarModo('random', btnRdnPassword, divRdnControl));
+btnPinPassword.addEventListener('click', () => alternarModo('pin', btnPinPassword, divPinControl));
+btnPhasePassword.addEventListener('click', () => alternarModo('phasepass', btnPhasePassword, divPhaseControl));
 
-    modo = 'phasepass';
-    config = obterDados_ModoPhase();
-
-    btnRdnPassword.classList.remove('active');
-    btnPhasePassword.classList.add('active');
-    divRdnControl.style.display = 'none';
-    divPhaseControl.style.display = 'block';
-});
-
-nameappVer.innerHTML = `&copy; ${dateNow.getFullYear()} FerlOps Tecnologia.`;
+nameappVer.innerHTML = `Versão ${versionNum.MAJOR}.${versionNum.MINOR}.${versionNum.PATCH}-beta - &copy; ${dateNow.getFullYear()} ferlOps Tecnologia.`;
 
 aboutappText.appendChild(nameappVer);
 
