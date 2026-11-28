@@ -29,7 +29,9 @@ let config = obterDados_ModoRandom();
 let dicionario = [];
 let idiomaAtualcache = 'en';
 let modo = "random";
-let intervalPasswd = 0
+let intervalPasswd = 0;
+
+const versionNum = { MAJOR: 1, MINOR: 1, PATCH: 6};
 
 function onWindowClose() {
     Neutralino.app.exit();
@@ -199,8 +201,6 @@ function gerarSenhaAleatoria() {
     for(let i = 0; i < faltam; i++) {
         senha.push(letras.charAt(sortearIndice(letras.length)));
     }
-
-    console.log(intervalPasswd);
 
     return embaralhar(senha).join('');
 
@@ -408,7 +408,7 @@ btnRdnPassword.addEventListener('click', () => alternarModo('random', btnRdnPass
 btnPinPassword.addEventListener('click', () => alternarModo('pin', btnPinPassword, divPinControl));
 btnPhasePassword.addEventListener('click', () => alternarModo('phasepass', btnPhasePassword, divPhaseControl));
 
-nameappVer.innerHTML = `&copy; ${dateNow.getFullYear()} ferlOps Tecnologia.`;
+nameappVer.innerHTML = `Versão ${versionNum.MAJOR}.${versionNum.MINOR}.${versionNum.PATCH} - &copy; ${dateNow.getFullYear()} ferlOps Tecnologia.`;
 
 aboutappText.appendChild(nameappVer);
 

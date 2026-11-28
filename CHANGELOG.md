@@ -3,6 +3,10 @@
 
 [Unreleased]
 
+## - 2026-11-28?
+### Changed
+- Acescentado o número da versão do aplicativo no rodapé ao lado dos Direitos autorais.
+
 ## - 2026-11-27?
 ### Added
 - Adicionado um botão da opção de gerar senhas PIN na interface e finalização da classe gerarPin() no codigo principal.

@@ -138,21 +138,26 @@ div#app-container hr {
 }
 
 div#app-container div.statusForca p{
+    color: #2b2b2b;
     font-size: 14px;
 }
 
 div#app-container section.settings span#titleSection {
     font-weight: bold;
     display: flex;
-    margin: 8px 0;
+    margin: 8px 0 12px 0;
     font-size: 13px;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 2px;
 }
 
 div#app-container section.settings div.mode-random {
     padding: 10px;
     border: none;
-    border-radius: 6px;
-    background-color: #eeeff5;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 7px -4px rgba(0, 0, 0, 0.20);
 }
 
 div#app-container section.settings div.mode-pin {
@@ -212,14 +217,18 @@ div#app-container section.settings div.mode-phasepass div.form-group input[type=
 div#app-container button#btnGerar {
     font-family: 'inter';
     margin-top: auto;
-    background-color: #143159;
-    padding: 8px 10px;
+    background-color: #0d0d0d;
+    padding: 10px 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     color: #FFF;
-    font-weight: bold;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 15px;
+    outline: none;
+}
+
+div#app-container button#btnGerar i {
+    margin: 0px 3px;
 }
 
 div#app-container div#aboutapp {
