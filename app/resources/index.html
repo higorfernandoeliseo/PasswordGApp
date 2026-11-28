@@ -47,10 +47,10 @@
           <div class="mode-random">
               <div class="length-control">
                 <div class="label-control">
-                  <label for="">Tamanho</label>
+                  <label for="tamanhoSenha">Tamanho</label>
                   <span id="length-value" class="length-badge">32</span>
                 </div>
-                <input type="range" name="txtSenhaTamanho" id="tamanhoSenha" min="12" max="100" value="32" class="range-length-psswd">
+                <input type="range" name="txtSenhaTamanho" id="tamanhoSenha" min="12" max="100" value="32" class="range-length-psswd" oninput="document.getElementById('length-value').textContent = this.value">
               </div>
 
               <div class="form-group">
@@ -76,18 +76,28 @@
           </div>
 
           <div class="mode-pin">
-            <div class="form-group">
-                <label for="tamPinPass">Tamanho: </label>
-                <input type="number" name="tamPínPass" id="tamPinPass" min="3" max="12" value="6" class="config-pin-options">
+
+              <div class="length-control">
+                <div class="label-control">
+                  <label for="tamPinPass">Tamanho</label>
+                  <span id="length-value-pin" class="length-badge">6</span>
+                </div>
+                <input type="range" name="tamPinPass" id="tamPinPass" min="3" max="12" value="6" class="range-length-psswd" oninput="document.getElementById('length-value-pin').textContent = this.value">
               </div>
           </div>
 
 
           <div class="mode-phasepass">
-            <div class="form-group">
-              <label for="tamSenhaPhase">Tamanho: </label>
-              <input type="number" name="tamPhasePass" id="tamPhasePass" min="5" max="15" value="5" class="config-phase-options">
-            </div>
+            
+             <div class="length-control">
+                <div class="label-control">
+                  <label for="tamPhasePass">Tamanho</label>
+                  <span id="length-value-phrase" class="length-badge">6</span>
+                </div>
+                <input type="range" name="tamPhasePass" id="tamPhasePass" min="3" max="12" value="6" class="range-length-psswd" oninput="document.getElementById('length-value-phrase').textContent = this.value">
+              </div>
+            
+           
             <div class="form-group">
                 <input type="checkbox" name="chkSelections" id="getPhasePortugues" title="Permite gerar senhas-frase em Português" class="config-phase-options">
                 <label for="getPhasePortugues">Incluir Palavras em Português</label>
@@ -106,11 +116,13 @@
 
       </section>
 
-      <div class="medidor-forca-senha">
-        <div id="barraForca"></div>
+      <div class="medidor-container">
+        <div class="medidor-forca-senha">
+          <div id="barraForca"></div>
+        </div>
+        
+        <div class="statusForca"></div>
       </div>
-      
-      <div class="statusForca"></div>
 
       <button id="btnGerar">
         <i class="icon-rotate-cw"></i>

@@ -364,8 +364,6 @@ async function atualizarSenha() {
     let textoForca = document.createElement('p');
     SenhaOutput.value = output;
 
-    document.querySelector('#length-value').textContent = output.length;
-
     const barra = document.querySelector('#barraForca');
     
     if (modo === "pin") {
@@ -385,7 +383,6 @@ async function atualizarSenha() {
     textoForca.textContent = entropyAlgorithm(tamanho, r);
     divStatusForca.appendChild(textoForca);
 
-
 }
 
 function alternarModo(modoAtivo, btnAtivo, abaAtiva) {
@@ -395,10 +392,14 @@ function alternarModo(modoAtivo, btnAtivo, abaAtiva) {
     const barra = document.querySelector('#barraForca');
     barra.style.width = "0px";
 
-    [btnRdnPassword, btnPinPassword, btnPhasePassword].forEach(btn => btn.classList.remove('active'));
+    [btnRdnPassword, btnPinPassword, btnPhasePassword].forEach(btn => {
+        btn.classList.remove('active');
+        btn.disabled = false;
+    });
     [divRdnControl, divPinControl, divPhaseControl].forEach(div => div.style.display = 'none');
 
     btnAtivo.classList.add('active');
+    btnAtivo.disabled = true;
     abaAtiva.style.display = 'block';
 
 

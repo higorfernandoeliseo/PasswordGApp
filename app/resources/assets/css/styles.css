@@ -172,43 +172,45 @@ div#app-container section.settings div.mode-random {
     border: none;
     border-radius: 8px;
     background-color: #fff;
+    height: 237px;
 }
 
 div#app-container section.settings div.mode-pin {
-    padding: 10px;
     border: none;
-    border-radius: 6px;
-    background-color: #eeeff5;
+    border-radius: 8px;
+    background-color: #fff;
     display: none;
 }
 
 div#app-container section.settings div.mode-phasepass {
-    padding: 10px;
     border: none;
-    border-radius: 6px;
-    background-color: #eeeff5;
+    border-radius: 8px;
+    background-color: #fff;
     display: none;
+    height: 237px;
 }
 
-div#app-container section.settings div.mode-random div.length-control {
+div.length-control {
     margin-bottom: 30px;
     background-color: #F1F5F9;
     border-radius: 8px;
     padding: 12px;
 }
 
-div#app-container section.settings div.mode-random div.length-control div.label-control {
+div.length-control div.label-control {
     display: flex;
     justify-content: space-between;
 }
 
-div#app-container section.settings div.mode-random div.length-control input[type="range"] {
+div.length-control input[type="range"] {
     display: flex;
     flex-direction: column;
     margin: 4px 0 8px 0;
 }
 
-div#app-container section.settings div.mode-random div.length-control span#length-value {
+div.length-control span#length-value,
+div.length-control span#length-value-pin,
+div.length-control span#length-value-phrase {
     padding: 5px;
     font-family: 'JBrainMono';
 }
@@ -283,6 +285,10 @@ div#app-container section.settings div.mode-phasepass div.form-group input[type=
     accent-color: #143159;
 }
 
+
+div.medidor-container {
+    margin-top: auto;
+}
 
 div#app-container button#btnGerar {
     font-family: 'inter';
