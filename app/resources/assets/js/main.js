@@ -165,12 +165,6 @@ function gerarSenhaAleatoria() {
     // letras maius = 26
     // numeros = 10
 
-    const ListaCaracteres = [
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-        'abcdefghijklmnopqrstuvwxyz',
-        '0123456789',
-        '!@#$%^&*()_+-=[]{};:,.<>/?'
-    ];
 
     const conjuntos = [
         { ativo: config.IncluirUpper, chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
@@ -198,31 +192,7 @@ function gerarSenhaAleatoria() {
         return "";
     }
 
-    // for(const lista of ListaCaracteres) {
-    //     senha.push(lista.charAt(sortearIndice(lista.length)));
-    // }
-
-    // if(config.IncluirNums === true)
-    //     letras += ListaCaracteres[2];
-    //     intervalPasswd += 10
-	
-    // if(config.IncluirSymb === true)
-    //     letras += ListaCaracteres[3];
-    //     intervalPasswd += 32
-		
-    
-    // if(config.IncluirUpper === true)
-    //     letras += ListaCaracteres[0];
-    //     intervalPasswd += 26
    
-	
-    // if(config.IncluirLower === true)
-    //     letras += ListaCaracteres[1];
-    //     intervalPasswd += 26
-
-        
-    // if (config.evitarAmbiguos) 
-    //     letras = removeAmbiguos(letras); 
     
     const faltam = config.Comprimento - senha.length;
 
@@ -368,150 +338,15 @@ async function copiarAreaClipboard() {
 
 }
 
-// document.querySelectorAll('.config-options').forEach((item) => {
-//     item.addEventListener('change', async () => {
-//         config = obterDados_ModoRandom();
-//         let output = await gerarHandle();
-//         SenhaOutput.value = output;
-
-//         const barra = document.querySelector('#barraForca');
-
-//         if(modo === 'random') {
-//             const entr = entropyAlgorithm(output.length, intervalPasswd)
-//             barra.setAttribute('title', entr);
-//         }else if(modo === 'pin'){
-//             barra.style.width = '0px';
-//         }else{
-//             const entr = entropyAlgorithm(config.ComprimentoPhase, dicionario.length)
-
-//             barra.setAttribute('title', entr);
-//         }
-
-//     })
-// });
-
-// document.querySelectorAll('.config-pin-options').forEach((item) => {
-//     item.addEventListener('change', async() => {
-//         config = obterDados_ModoPin();
-//         let output = await gerarHandle();
-//         SenhaOutput.value = output;
-
-//         const barra = document.querySelector('#barraForca');
-
-//          if(modo === 'random') {
-//             const entr = entropyAlgorithm(output.length, intervalPasswd)
-//             barra.setAttribute('title', entr);
-//         }else if(modo === 'pin'){
-//             barra.style.width = '0px';
-//         }else{
-//             const entr = entropyAlgorithm(config.ComprimentoPhase, dicionario.length)
-
-//             barra.setAttribute('title', entr);
-//         }
-//     })
-// });
-
 
 document.querySelectorAll('.config-options, .config-pin-options, .config-phase-options').forEach((item) => {
     item.addEventListener('change', atualizarSenha);
 });
 
-// document.querySelectorAll('.config-phase-options').forEach((item) => {
-//     item.addEventListener('change', async() => {
-//         config = obterDados_ModoPhase();
-//         let output = await gerarHandle();
-//         SenhaOutput.value = output;
-
-//         const barra = document.querySelector('#barraForca');
-
-//          if(modo === 'random') {
-//             const entr = entropyAlgorithm(output.length, intervalPasswd)
-//             barra.setAttribute('title', entr);
-//         }else if(modo === 'pin'){
-//             barra.style.width = '0px';
-//         }else{
-//             const entr = entropyAlgorithm(config.ComprimentoPhase, dicionario.length)
-
-//             barra.setAttribute('title', entr);
-//         }
-//     })
-// });
-
-// btnGerar.addEventListener('click', async() => {
-//     let output = await gerarHandle();
-	
-	
-//     const barra = document.querySelector('#barraForca');
-//     SenhaOutput.value = output
-//     gerarBarra(output)
-
-//     if(modo === 'random') {
-//         const entr = entropyAlgorithm(output.length, intervalPasswd)
-//         barra.setAttribute('title', entr);
-//     }else if(modo === 'pin'){
-//         barra.style.width = '0px';
-//     }else{
-//         const entr = entropyAlgorithm(config.ComprimentoPhase, dicionario.length)
-
-//         barra.setAttribute('title', entr);
-//     }
-
-// });
-
 btnCopiar.addEventListener('click', () => {
     copiarAreaClipboard();
 });
 
-// btnRdnPassword.addEventListener('click', () => {
-
-//     const barra = document.querySelector('#barraForca');
-//     barra.style.width = '0px';
-
-//     modo = 'random';
-//     config = obterDados_ModoRandom();
-//     SenhaOutput.value = '';
-
-//     btnRdnPassword.classList.add('active');
-//     btnPinPassword.classList.remove('active');
-//     btnPhasePassword.classList.remove('active');
-//     divRdnControl.style.display = 'block';
-//     divPhaseControl.style.display = 'none';
-//     divPinControl.style.display = 'none';
-// });
-
-// btnPinPassword.addEventListener('click', () => {
-
-//     const barra = document.querySelector('#barraForca');
-//     barra.style.width = '0px';
-
-//     modo = 'pin';
-//     config = obterDados_ModoPin();
-//     SenhaOutput.value = '';
-
-//     btnRdnPassword.classList.remove('active');
-//     btnPinPassword.classList.add('active');
-//     btnPhasePassword.classList.remove('active');
-//     divRdnControl.style.display = 'none';
-//     divPinControl.style.display = 'block';
-//     divPhaseControl.style.display = 'none';
-// });
-
-// btnPhasePassword.addEventListener('click', () => {
-
-//     const barra = document.querySelector('#barraForca');
-
-//     modo = 'phasepass';
-//     config = obterDados_ModoPhase();
-//     SenhaOutput.value = '';
-//     barra.style.width = '0px';
-
-//     btnRdnPassword.classList.remove('active');
-//     btnPinPassword.classList.remove('active');
-//     btnPhasePassword.classList.add('active');
-//     divRdnControl.style.display = 'none';
-//     divPinControl.style.display = 'none';
-//     divPhaseControl.style.display = 'block';
-// });
 
 async function atualizarSenha() {
 
@@ -520,6 +355,9 @@ async function atualizarSenha() {
     else config = obterDados_ModoPhase();
 
     let output = await gerarHandle();
+    const divStatusForca = document.querySelector('.statusForca');
+    divStatusForca.innerHTML = '';
+    let textoForca = document.createElement('p');
     SenhaOutput.value = output;
 
     const barra = document.querySelector('#barraForca');
@@ -531,11 +369,15 @@ async function atualizarSenha() {
     }
     
     gerarBarra(output);
+    
 
     const r = (modo === "random") ? intervalPasswd : dicionario.length;
     const tamanho = (modo === "random") ? config.Comprimento : config.ComprimentoPhase;
 
     barra.setAttribute('title', entropyAlgorithm(tamanho, r));
+
+    textoForca.textContent = entropyAlgorithm(tamanho, r);
+    divStatusForca.appendChild(textoForca);
 
 
 }

@@ -137,6 +137,10 @@ div#app-container hr {
     margin: 5px 0;
 }
 
+div#app-container div.statusForca p{
+    font-size: 14px;
+}
+
 div#app-container section.settings span#titleSection {
     font-weight: bold;
     display: flex;
@@ -207,7 +211,7 @@ div#app-container section.settings div.mode-phasepass div.form-group input[type=
 
 div#app-container button#btnGerar {
     font-family: 'inter';
-    margin-top: 10px;
+    margin-top: auto;
     background-color: #143159;
     padding: 8px 10px;
     border: none;
